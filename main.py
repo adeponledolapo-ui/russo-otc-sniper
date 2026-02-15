@@ -44,35 +44,32 @@ def atr(high, low, close, period=14):
 print("🚀 Russo OTC Sniper Bot Started")
 
 def run():
+    print("BOT LOOP ENTERED")
+
     while True:
         try:
-            print("Checking market...")
-            
-            close, high, low = get_candles()
-            price = close[-1]
+            print("Trying to fetch candles...")
 
-            # Calculate indicators
+            close, high, low = get_candles()
+
+            print("Candles received:", len(close))
+
+            price = close[-1]
+            print("Price:", price)
+
             ema_fast = ema(close, 20).iloc[-1]
             ema_slow = ema(close, 50).iloc[-1]
             rsi_val = rsi(close).iloc[-1]
             atr_val = atr(high, low, close).iloc[-1]
 
-            signal = None
+            print("EMA20:", ema_fast, "EMA50:", ema_slow, "RSI:", rsi_val, "ATR:", atr_val)
 
-            if ema_fast > ema_slow and rsi_val < 70:
-                signal = "BUY"
-            elif ema_fast < ema_slow and rsi_val > 30:
-                signal = "SELL"
-
-            if signal and atr_val > np.mean(atr(high, low, close)):
-                msg = f"📊 EURUSD OTC\n🎯 {signal}\n⏱ 1 Minute\nATR OK"
-                bot.send_message(chat_id=CHAT_ID, text=msg)
-                print("Signal sent:", msg)
+            bot.send_message(chat_id=CHAT_ID, text="Bot is alive ✅")
 
             time.sleep(60)
 
         except Exception as e:
-            print("ERROR:", e)
+            print("CRASH:", e)
             time.sleep(5)
 
 run()
