@@ -7,7 +7,7 @@ from telegram import Bot
 
 # ========== CONFIG ==========
 TOKEN = "8286509718:AAEKAEd-hzc9U14fCkzTDtQRrqwZH1n_-r8"
-CHAT_ID = "YOUR_CHAT_ID"
+CHAT_ID = "688759657"
 
 SYMBOL = "EURUSD"
 TIMEFRAME = "1m"
