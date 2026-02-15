@@ -41,10 +41,14 @@ def atr(high, low, close, period=14):
     return pd.Series(tr).rolling(period).mean().values
 
 # ===== SNIPER LOOP =====
-last_signal = None
+print("Bot loop started")
 
 while True:
-    close, high, low = get_candles()
-    price = close[-1]
-    bot.send_message(chat_id=CHAT_ID, text=f"Bot running... Price: {price}")
+    try:
+        close, high, low = get_candles()
+        price = close[-1]
+        bot.send_message(chat_id=CHAT_ID, text=f"🤖 Bot running... Price: {price}")
+    except Exception as e:
+        print("ERROR:", e)
+
     time.sleep(60)
