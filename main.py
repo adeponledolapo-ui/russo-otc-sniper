@@ -44,35 +44,7 @@ def atr(high, low, close, period=14):
 last_signal = None
 
 while True:
-    try:
-        close, high, low = get_candles()
-
-        emaFast = ema(close, 20)
-        emaSlow = ema(close, 50)
-
-        macd = ema(close, 12) - ema(close, 26)
-        macdSignal = ema(macd, 9)
-
-        rsiVal = rsi(np.array(close))[-1]
-        atrVal = atr(np.array(high), np.array(low), np.array(close))[-1]
-        atrPrev = atr(np.array(high), np.array(low), np.array(close))[-2]
-
-        trendUp = emaFast[-1] > emaSlow[-1]
-        trendDown = emaFast[-1] < emaSlow[-1]
-        volOk = atrVal > atrPrev
-
-        buy = trendUp and rsiVal < 35 and macd[-1] > macdSignal[-1] and macd[-2] <= macdSignal[-2] and volOk
-        sell = trendDown and rsiVal > 65 and macd[-1] < macdSignal[-1] and macd[-2] >= macdSignal[-2] and volOk
-
-        if buy and last_signal != "BUY":
-            bot.send_message(chat_id=CHAT_ID, text="📈 OTC BUY Signal (Russo Sniper)")
-            last_signal = "BUY"
-
-        if sell and last_signal != "SELL":
-            bot.send_message(chat_id=CHAT_ID, text="📉 OTC SELL Signal (Russo Sniper)")
-            last_signal = "SELL"
-
-    except Exception as e:
-        print("Error:", e)
-
+    close, high, low = get_candles()
+    price = close[-1]
+    bot.send_message(chat_id=CHAT_ID, text=f"Bot running... Price: {price}")
     time.sleep(60)
